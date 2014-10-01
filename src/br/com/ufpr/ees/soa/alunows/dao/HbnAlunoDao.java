@@ -31,6 +31,13 @@ public class HbnAlunoDao {
 		return entityManagerFactory.createEntityManager();
 	}
 
+	public Aluno findById(Long id) {
+		entityManager = getEntityManager();
+		Aluno aluno = entityManager.find(Aluno.class, id);
+		entityManager.close();
+		return aluno;
+	}
+
 	public List<Aluno> findAllAluno() {
 		entityManager = getEntityManager();
 		List<Aluno> result = entityManager.createQuery("FROM Aluno a ORDER BY a.nome").getResultList();

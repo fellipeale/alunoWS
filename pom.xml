@@ -10,20 +10,26 @@
   
 	<dependencies>
   
-  		<!-- SERVLETS & JSP & JSTL - INICIO -->
-  		<dependency>
+  		<!-- JSF & SERVLET: INICIO -->
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<version>2.2.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<version>2.2.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
+			<version>3.0.1</version>
 		</dependency>
-		
-  		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
-			<artifactId>jstl-api</artifactId>
-			<version>1.2</version>
-		</dependency>
-  		<!-- SERVLETS & JSP & JSTL - FIM -->
-		
+  		<!-- JSF & SERVLET: FIM -->
+  		
   		<!-- REST - INICIO -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -43,13 +49,6 @@
 			<version>1.8</version>
 		</dependency>
   		<!-- REST - FIM -->
-		
-		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.2</version>
-		</dependency>
-		
 		
 		<dependency>
 		    <groupId>org.hibernate</groupId>

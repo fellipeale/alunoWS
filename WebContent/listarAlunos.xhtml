@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html">
+ 
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>Aluno Web Service Application</title>
+    </h:head>
+    <h:body>
+    	<div align="center">
+			<h1>Buscar Aluno - Resultado</h1>
+		</div>
+		
+		<h:form>
+			<div align="center">
+				<h:dataTable id="result" value="#{alunoControllerBean.alunos}" var="aluno" border="1" cellpadding="3">
+					<h:column>
+						<f:facet name="header">Matricula</f:facet>
+						<h:outputText value="#{aluno.matricula}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+						<h:outputText value="#{aluno.nome}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">CPF</f:facet>
+						<h:outputText value="#{aluno.cpf}" />
+					</h:column>
+					<h:column width="50px">
+						<f:facet name="header">Actions</f:facet>
+						<h:commandLink action="#{alunoControllerBean.visualizarAluno(aluno.id)}">
+							<h:graphicImage value="/resources/view.gif" />
+						</h:commandLink>
+						&nbsp;
+						<h:commandLink action="#{alunoControllerBean.removerAluno(aluno.id)}">
+							<h:graphicImage value="/resources/delete.gif" />
+						</h:commandLink>
+					</h:column>
+				</h:dataTable>
+				<br/>
+				<h:commandButton value="Voltar" action="home" />
+			</div>
+		</h:form>
+    </h:body>
+</html>

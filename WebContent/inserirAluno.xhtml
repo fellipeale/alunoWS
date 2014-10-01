@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html">
+ 
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>Aluno Web Service Application</title>
+    </h:head>
+    <h:body>
+    	<div align="center">
+			<h1>Dados do Aluno</h1>
+		</div>
+		<h:form>
+			<div>
+				<h3><h:outputText value="Dados Pessoais" /></h3>
+				<h:panelGrid columns="2">
+					<h:outputText value="Matricula:" />
+					<h:inputText value="#{alunoControllerBean.aluno.matricula}" />
+					
+					<h:outputText value="Nome:" />
+					<h:inputText value="#{alunoControllerBean.aluno.nome}" />
+					
+					<h:outputText value="CPF:" />
+					<h:inputText value="#{alunoControllerBean.aluno.cpf}" />
+					
+					<h:outputText value="Idade:" />
+					<h:inputText value="#{alunoControllerBean.aluno.idade}" />
+				</h:panelGrid>
+				
+				<h3><h:outputText value="Endereço" /></h3>
+				<h:panelGrid columns="2">
+					<h:outputText value="Logradouro:" />
+					<h:inputText value="#{alunoControllerBean.aluno.endereco.logradouro}" />
+					
+					<h:outputText value="Numero:" />
+					<h:inputText value="#{alunoControllerBean.aluno.endereco.numero}" />
+					
+					<h:outputText value="Complemento:" />
+					<h:inputText value="#{alunoControllerBean.aluno.endereco.complemento}" />
+					
+					<h:outputText value="Bairro:" />
+					<h:inputText value="#{alunoControllerBean.aluno.endereco.bairro}" />
+					
+					<h:outputText value="CEP:" />
+					<h:inputText value="#{alunoControllerBean.aluno.endereco.cep}" />
+					
+					<h:outputText value="Cidade/UF:" />
+					<h:panelGroup>
+						<h:inputText value="#{alunoControllerBean.aluno.endereco.cidade}" />
+						<h:selectOneMenu value="#{alunoControllerBean.aluno.endereco.estado}">
+							<f:selectItems value="#{enderecoBean.UFs}"/>
+						</h:selectOneMenu>
+					</h:panelGroup>
+				</h:panelGrid>
+				<br/>
+				<h:commandButton value="Salvar" action="#{alunoControllerBean.salvarAluno()}" />
+				<h:commandButton value="Voltar" action="home" />					
+			</div>
+		</h:form>		
+    </h:body>
+</html>

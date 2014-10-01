@@ -43,7 +43,7 @@ public class AlunoWSHelper {
 		return Arrays.asList(alunos);
 	}
 	
-	public Aluno buscarAluno(String numeroMatricula) {
+	public Aluno buscarAlunoNR(String numeroMatricula) {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT + "/" + numeroMatricula);
 
 		String result = resource.accept(MediaType.APPLICATION_JSON).get(String.class).toString();
@@ -51,11 +51,19 @@ public class AlunoWSHelper {
 		return jsonToAlunoObject(result);
 	}
 	
+	public Aluno buscarAlunoPorId(Long id) {
+		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT + "/id/" + id);
+
+		String result = resource.accept(MediaType.APPLICATION_JSON).get(String.class).toString();
+
+		return jsonToAlunoObject(result);
+	}
+
 	public Aluno inserirAluno(Aluno aluno) {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT);
 
 		// FIXME error when calling
-		String result = resource.accept(MediaType.APPLICATION_JSON).post(String.class, aluno).toString();
+		String result = resource.accept(MediaType.APPLICATION_JSON).post(String.class, alunoObjectToJson(aluno)).toString();
 
 		return jsonToAlunoObject(result);
 	}
@@ -64,21 +72,26 @@ public class AlunoWSHelper {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT);
 
 		// FIXME error when calling
-		String result = resource.accept(MediaType.APPLICATION_JSON).put(String.class, aluno).toString();
+		String result = resource.accept(MediaType.APPLICATION_JSON).put(String.class, alunoObjectToJson(aluno)).toString();
 
 		return jsonToAlunoObject(result);
 	}
 
 	public void removerAluno(Long id) {
+		// FIXME
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT + "/" + id);
-
+		// resource.type(MediaType.APPLICATION_JSON).delete(ClientResponse.class);
 		resource.delete();
 	}
 
-	private Aluno jsonToAlunoObject(String jsonObject) {
+	public static Aluno jsonToAlunoObject(String jsonObject) {
 		Gson gson = new GsonBuilder().create();
-		Aluno aluno = gson.fromJson(jsonObject, Aluno.class);
-		return aluno;
+		return gson.fromJson(jsonObject, Aluno.class);
+	}
+
+	public static String alunoObjectToJson(Aluno aluno) {
+		Gson gson = new GsonBuilder().create();
+		return gson.toJson(aluno);
 	}
 
 }

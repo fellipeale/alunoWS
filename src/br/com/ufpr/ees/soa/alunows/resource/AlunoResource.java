@@ -1,5 +1,7 @@
 package br.com.ufpr.ees.soa.alunows.resource;
 
+import static br.com.ufpr.ees.soa.alunows.helper.AlunoWSHelper.jsonToAlunoObject;
+
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -25,28 +27,38 @@ public class AlunoResource {
 	}
 
 	@GET
-	@Path("{nr}")
+	@Path("/{nr}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Aluno buscarAlunoNR(@PathParam("nr") String nr) {
 		return HbnAlunoDao.getInstance().findAlunoByNR(nr);
 	}
 
+	@GET
+	@Path("/id/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Aluno buscarAlunoNR(@PathParam("id") Long id) {
+		return HbnAlunoDao.getInstance().findById(id);
+	}
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Aluno inserirAluno(Aluno aluno) {
+	public Aluno inserirAluno(String alunoJson) {
+		Aluno aluno = jsonToAlunoObject(alunoJson);
 		return HbnAlunoDao.getInstance().insertAluno(aluno);
 	}
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Aluno atualizarAluno(Aluno aluno) {
+	public Aluno atualizarAluno(String alunoJson) {
+		Aluno aluno = jsonToAlunoObject(alunoJson);
 		return HbnAlunoDao.getInstance().updateAluno(aluno);
 	}
 
 	@DELETE
-	@Path("{id}")
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public void removerAluno(@PathParam("id") Long id) {
 		HbnAlunoDao.getInstance().removeAluno(id);
 	}
