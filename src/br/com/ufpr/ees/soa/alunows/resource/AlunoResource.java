@@ -1,7 +1,5 @@
 package br.com.ufpr.ees.soa.alunows.resource;
 
-import static br.com.ufpr.ees.soa.alunows.helper.AlunoWSHelper.jsonToAlunoObject;
-
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -43,16 +41,14 @@ public class AlunoResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Aluno inserirAluno(String alunoJson) {
-		Aluno aluno = jsonToAlunoObject(alunoJson);
+	public Aluno inserirAluno(Aluno aluno) {
 		return HbnAlunoDao.getInstance().insertAluno(aluno);
 	}
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Aluno atualizarAluno(String alunoJson) {
-		Aluno aluno = jsonToAlunoObject(alunoJson);
+	public Aluno atualizarAluno(Aluno aluno) {
 		return HbnAlunoDao.getInstance().updateAluno(aluno);
 	}
 

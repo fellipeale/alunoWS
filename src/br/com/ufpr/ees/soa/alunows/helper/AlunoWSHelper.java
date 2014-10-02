@@ -1,7 +1,6 @@
 package br.com.ufpr.ees.soa.alunows.helper;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -9,9 +8,8 @@ import javax.ws.rs.core.UriBuilder;
 
 import br.com.ufpr.ees.soa.alunows.model.Aluno;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
@@ -34,64 +32,32 @@ public class AlunoWSHelper {
 	
 	public List<Aluno> buscarAlunos() {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT);
-
-		String result = resource.accept(MediaType.APPLICATION_JSON).get(String.class).toString();
-
-		Gson gson = new GsonBuilder().create();
-		Aluno[] alunos = gson.fromJson(result, Aluno[].class);
-
-		return Arrays.asList(alunos);
+		return resource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(new GenericType<List<Aluno>>() {});
 	}
 	
 	public Aluno buscarAlunoNR(String numeroMatricula) {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT + "/" + numeroMatricula);
-
-		String result = resource.accept(MediaType.APPLICATION_JSON).get(String.class).toString();
-
-		return jsonToAlunoObject(result);
+		return resource.accept(MediaType.APPLICATION_JSON).get(Aluno.class);
 	}
 	
 	public Aluno buscarAlunoPorId(Long id) {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT + "/id/" + id);
-
-		String result = resource.accept(MediaType.APPLICATION_JSON).get(String.class).toString();
-
-		return jsonToAlunoObject(result);
+		return resource.accept(MediaType.APPLICATION_JSON).get(Aluno.class);
 	}
 
 	public Aluno inserirAluno(Aluno aluno) {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT);
-
-		// FIXME error when calling
-		String result = resource.accept(MediaType.APPLICATION_JSON).post(String.class, alunoObjectToJson(aluno)).toString();
-
-		return jsonToAlunoObject(result);
+		return resource.accept(MediaType.APPLICATION_JSON).post(Aluno.class, aluno);
 	}
 
 	public Aluno atualizarAluno(Aluno aluno) {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT);
-
-		// FIXME error when calling
-		String result = resource.accept(MediaType.APPLICATION_JSON).put(String.class, alunoObjectToJson(aluno)).toString();
-
-		return jsonToAlunoObject(result);
+		return resource.accept(MediaType.APPLICATION_JSON).put(Aluno.class, aluno);
 	}
 
 	public void removerAluno(Long id) {
-		// FIXME
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT + "/" + id);
-		// resource.type(MediaType.APPLICATION_JSON).delete(ClientResponse.class);
-		resource.delete();
-	}
-
-	public static Aluno jsonToAlunoObject(String jsonObject) {
-		Gson gson = new GsonBuilder().create();
-		return gson.fromJson(jsonObject, Aluno.class);
-	}
-
-	public static String alunoObjectToJson(Aluno aluno) {
-		Gson gson = new GsonBuilder().create();
-		return gson.toJson(aluno);
+		resource.type(MediaType.APPLICATION_JSON).delete(Aluno.class, id);
 	}
 
 }
