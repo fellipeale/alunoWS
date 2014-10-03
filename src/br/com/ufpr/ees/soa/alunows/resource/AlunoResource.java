@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import br.com.ufpr.ees.soa.alunows.dao.HbnAlunoDao;
 import br.com.ufpr.ees.soa.alunows.model.Aluno;
@@ -39,17 +40,31 @@ public class AlunoResource {
 	}
 
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/")
+//	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Aluno inserirAluno(Aluno aluno) {
-		return HbnAlunoDao.getInstance().insertAluno(aluno);
+	public Response inserirAluno(Aluno aluno) {
+		try {
+			HbnAlunoDao.getInstance().insertAluno(aluno);
+			return Response.status(200).entity(aluno).build();
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+			return Response.status(500).build();
+		}
 	}
 
 	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/")
+//	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Aluno atualizarAluno(Aluno aluno) {
-		return HbnAlunoDao.getInstance().updateAluno(aluno);
+	public Response atualizarAluno(Aluno aluno) {
+		try {
+			HbnAlunoDao.getInstance().updateAluno(aluno);
+			return Response.status(200).entity(aluno).build();
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+			return Response.status(500).build();
+		}
 	}
 
 	@DELETE

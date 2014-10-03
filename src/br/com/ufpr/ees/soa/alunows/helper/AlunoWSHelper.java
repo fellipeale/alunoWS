@@ -1,10 +1,15 @@
 package br.com.ufpr.ees.soa.alunows.helper;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
+
+import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import br.com.ufpr.ees.soa.alunows.model.Aluno;
 
@@ -25,6 +30,7 @@ public class AlunoWSHelper {
 
 	private WebResource getWebResource(String uri) {
 		ClientConfig config = new DefaultClientConfig();
+		config.getClasses().add(JacksonJsonProvider.class);
 	    Client client = Client.create(config);
 		WebResource resource = client.resource(buildURI(uri));
 		return resource;
@@ -32,7 +38,7 @@ public class AlunoWSHelper {
 	
 	public List<Aluno> buscarAlunos() {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT);
-		return resource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get(new GenericType<List<Aluno>>() {});
+		return resource.accept(MediaType.APPLICATION_JSON).get(new GenericType<List<Aluno>>() {});
 	}
 	
 	public Aluno buscarAlunoNR(String numeroMatricula) {
@@ -46,18 +52,28 @@ public class AlunoWSHelper {
 	}
 
 	public Aluno inserirAluno(Aluno aluno) {
+		
+		OutputStream out = new ByteArrayOutputStream();
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			mapper.writeValue(out, aluno);
+			System.out.println(out.toString());
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+		}
+		
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT);
-		return resource.accept(MediaType.APPLICATION_JSON).post(Aluno.class, aluno);
+		return resource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(Aluno.class, aluno);
 	}
 
 	public Aluno atualizarAluno(Aluno aluno) {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT);
-		return resource.accept(MediaType.APPLICATION_JSON).put(Aluno.class, aluno);
+		return resource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).put(Aluno.class, aluno);
 	}
 
 	public void removerAluno(Long id) {
 		WebResource resource = getWebResource(ALUNO_WS_ENDPOINT + "/" + id);
-		resource.type(MediaType.APPLICATION_JSON).delete(Aluno.class, id);
+		resource.queryParam("id", id.toString()).delete(); // type(MediaType.APPLICATION_JSON).delete(Aluno.class, id);
 	}
 
 }

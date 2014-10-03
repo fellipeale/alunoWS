@@ -2,13 +2,15 @@ package br.com.ufpr.ees.soa.alunows.dao;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
+import javax.transaction.UserTransaction;
 
 import br.com.ufpr.ees.soa.alunows.model.Aluno;
-
 
 public class HbnAlunoDao {
 
@@ -38,13 +40,15 @@ public class HbnAlunoDao {
 		return aluno;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Aluno> findAllAluno() {
-		entityManager = getEntityManager();
+		entityManager = getEntityManager();		
 		List<Aluno> result = entityManager.createQuery("FROM Aluno a ORDER BY a.nome").getResultList();
 		entityManager.close();
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Aluno findAlunoByNR(String nr) {
 		entityManager = getEntityManager();
 		Query query = entityManager.createQuery("FROM Aluno a WHERE a.matricula = :nr");
@@ -58,6 +62,7 @@ public class HbnAlunoDao {
 		return result.get(0);
 	}
 
+	@Transactional
 	public Aluno insertAluno(Aluno aluno) {
 		entityManager = getEntityManager();
 		entityManager.persist(aluno);
@@ -65,14 +70,16 @@ public class HbnAlunoDao {
 		return aluno;
 	}
 
-	public Aluno updateAluno(Aluno aluno) {
+	@Transactional
+	public Aluno updateAluno(Aluno aluno) {		
 		entityManager = getEntityManager();
 		entityManager.merge(aluno);
 		entityManager.flush();
 		return aluno;
 	}
 
-	public void removeAluno(Long id) {
+	@Transactional
+	public void removeAluno(Long id) {		
 		entityManager = getEntityManager();
 		Aluno aluno = entityManager.find(Aluno.class, id);
 		entityManager.remove(aluno);
