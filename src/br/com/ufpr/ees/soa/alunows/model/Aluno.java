@@ -2,6 +2,7 @@ package br.com.ufpr.ees.soa.alunows.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +20,7 @@ public class Aluno implements Serializable {
 	private static final long serialVersionUID = -7789981033036805601L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	@Column
 	private String matricula;
@@ -29,7 +30,7 @@ public class Aluno implements Serializable {
 	private String cpf;
 	@Column
 	private Integer idade;
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@PrimaryKeyJoinColumn
 	private Endereco endereco;
 

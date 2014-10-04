@@ -16,7 +16,7 @@ public class Endereco implements Serializable {
 	private static final long serialVersionUID = 7535915595416130723L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	@Column
 	private String logradouro;
