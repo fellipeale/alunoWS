@@ -20,7 +20,7 @@ public class Aluno implements Serializable {
 	private static final long serialVersionUID = -7789981033036805601L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column
 	private String matricula;
@@ -30,7 +30,8 @@ public class Aluno implements Serializable {
 	private String cpf;
 	@Column
 	private Integer idade;
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = {
+			CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	@PrimaryKeyJoinColumn
 	private Endereco endereco;
 
